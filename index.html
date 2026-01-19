@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giziku: AI Nutrition Tracker & Daily Calorie Target</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg: #0f172a;
+            --card: rgba(255, 255, 255, 0.03);
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--bg);
+            padding: 18px 36px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 16px;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 32px;
+            border-radius: 24px;
+            text-align: left;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 900;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .legal-links {
+            margin-top: 20px;
+        }
+
+        .legal-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-glow"></div>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-box">
+                <img src="app_icon.png" alt="Giziku Logo">
+            </div>
+            <div class="brand-name">Giziku</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Bugar & Ideal Bersama <span>Giziku AI</span></h1>
+        <p>Aplikasi pelacak nutrisi cerdas yang membantu kamu mencapai target kalori harian dengan teknologi AI.
+            Analisis makananmu hanya dalam hitungan detik.</p>
+        <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary">
+            Dapatkan di Google Play
+        </a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <h3>Analisis AI Instan</h3>
+            <p>Ketik menu makananmu dan biarkan AI Giziku menghitung kalori, protein, lemak, dan karbohidrat secara
+                instan.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Target Personalisasi</h3>
+            <p>Hitung kebutuhan energi harian (TDEE) berdasarkan data tubuhmu dan dapatkan target nutrisi yang presisi.
+            </p>
+        </div>
+        <div class="feature-card">
+            <h3>Mode Puasa & Ramadan</h3>
+            <p>Fitur otomatis yang menyesuaikan target nutrisi selama bulan Ramadan maupun Intermittent Fasting.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Giziku: AI Calorie Tracker. All rights reserved.</p>
+        <div class="legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="/app-ads.txt">app-ads.txt</a>
+        </div>
+    </footer>
+</body>
+
+</html>
