@@ -5,6 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giziku: AI Nutrition Tracker & Daily Calorie Target</title>
+    <meta name="description"
+        content="Giziku: Aplikasi pelacak nutrisi AI. Hitung kalori dan nutrisi makanan otomatis hanya dengan foto. Pantau TDEE dan target diet harianmu dengan mudah!">
+    <meta name="keywords"
+        content="Giziku, AI Nutrition Tracker, Hitung Kalori, Tracker Nutrisi AI, Diet Sehat, TDEE Calculator, Ramadan Diet, Food Scanner AI">
+    <meta name="author" content="Link-Arc">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://giziku-app.com/">
+    <meta property="og:title" content="Giziku: AI Nutrition Tracker & Daily Calorie Target">
+    <meta property="og:description"
+        content="Hitung kalori dan nutrisi makanan otomatis hanya dengan foto. Asisten nutrisi pribadi di kantongmu!">
+    <meta property="og:image" content="https://giziku-app.com/giziku_mockup.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://giziku-app.com/">
+    <meta property="twitter:title" content="Giziku: AI Nutrition Tracker & Daily Calorie Target">
+    <meta property="twitter:description"
+        content="Hitung kalori dan nutrisi makanan otomatis hanya dengan foto. Asisten nutrisi pribadi di kantongmu!">
+    <meta property="twitter:image" content="https://giziku-app.com/giziku_mockup.png">
+
+    <link rel="canonical" href="https://giziku-app.com/">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -556,10 +580,45 @@
             dot.addEventListener('click', () => {
                 currentSlide = index;
                 updateSlider();
-                clearInterval(slideInterval);
-                slideInterval = setInterval(nextSlide, 5000);
+                resetInterval();
             });
         });
+
+        // Touch Swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const sliderContainer = document.querySelector('.slider-container');
+
+        sliderContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        sliderContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left -> next
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                } else {
+                    // Swipe right -> prev
+                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                }
+                updateSlider();
+                resetInterval();
+            }
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
     </script>
 </body>
 
