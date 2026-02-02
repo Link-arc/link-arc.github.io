@@ -130,18 +130,19 @@
             letter-spacing: -0.5px;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         /* --- Hero Section --- */
         .hero {
-            padding: 160px 5% 100px;
+            padding: 160px 5% 60px;
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             align-items: center;
             gap: 60px;
-            min-height: 90vh;
+            min-height: 80vh;
         }
 
         .hero-text {
@@ -186,6 +187,67 @@
             animation: float 6s ease-in-out infinite;
         }
 
+        /* --- Slider --- */
+        .slider-container {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            background: var(--card);
+            border: 1px solid var(--border);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: 600%;
+            /* 6 images */
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .slide {
+            width: 16.666%;
+            /* 100% / 6 */
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 24px;
+            border-radius: 4px;
+        }
+
         @keyframes float {
 
             0%,
@@ -194,7 +256,7 @@
             }
 
             50% {
-                transform: translateY(-20px);
+                transform: translateY(-10px);
             }
         }
 
@@ -226,7 +288,7 @@
 
         /* --- Features --- */
         .features-section {
-            padding: 100px 5%;
+            padding: 60px 5% 40px;
             max-width: 1200px;
             margin: 0 auto;
             text-align: center;
@@ -290,10 +352,10 @@
 
         /* --- Footer --- */
         footer {
-            padding: 100px 5% 60px;
+            padding: 60px 5% 60px;
             text-align: center;
             border-top: 1px solid var(--border);
-            margin-top: 80px;
+            margin-top: 40px;
         }
 
         .footer-content {
@@ -402,7 +464,24 @@
                 </div>
             </div>
             <div class="hero-mockup">
-                <img src="giziku_mockup.png" alt="Giziku App Mockup">
+                <div class="slider-container">
+                    <div class="slider-wrapper" id="sliderWrapper">
+                        <div class="slide"><img src="marketing_slide_real_1.png" alt="Giziku Feature 1"></div>
+                        <div class="slide"><img src="marketing_slide_real_2.png" alt="Giziku Feature 2"></div>
+                        <div class="slide"><img src="marketing_slide_real_3.png" alt="Giziku Feature 3"></div>
+                        <div class="slide"><img src="marketing_slide_2.png" alt="Giziku Feature 4"></div>
+                        <div class="slide"><img src="marketing_slide_3.png" alt="Giziku Feature 5"></div>
+                        <div class="slide"><img src="marketing_slide_4.png" alt="Giziku Feature 6"></div>
+                    </div>
+                    <div class="slider-dots" id="sliderDots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -450,6 +529,37 @@
 
     <script>
         lucide.createIcons();
+
+        // Slider Logic
+        const wrapper = document.getElementById('sliderWrapper');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        const totalSlides = 6;
+
+        function updateSlider() {
+            wrapper.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        // Auto play
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Click on dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlider();
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+        });
     </script>
 </body>
 
