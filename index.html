@@ -5,32 +5,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giziku: AI Nutrition Tracker & Daily Calorie Target</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --primary: #10b981;
-            --bg: #0f172a;
+            --primary-dark: #059669;
+            --primary-glow: rgba(16, 185, 129, 0.4);
+            --bg: #030712;
             --card: rgba(255, 255, 255, 0.03);
-            --text: #ffffff;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f8fafc;
             --text-muted: #94a3b8;
         }
 
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
+        /* --- Background Elements --- */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, var(--bg) 60%);
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 80vw;
+            height: 80vw;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            top: -20%;
+            right: -20%;
+            animation: drift 20s infinite alternate;
+        }
+
+        .glow-2 {
+            bottom: -20%;
+            left: -20%;
+            animation: drift 25s infinite alternate-reverse;
+        }
+
+        @keyframes drift {
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(10%, 10%);
+            }
+        }
+
+        /* --- Navigation --- */
         header {
             width: 100%;
+            padding: 24px 5%;
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(3, 7, 18, 0.5);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            width: 100%;
             max-width: 1200px;
-            padding: 40px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,18 +104,18 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .logo-box {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
         }
 
         .logo-box img {
@@ -60,19 +125,32 @@
         }
 
         .brand-name {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
             letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        /* --- Hero Section --- */
         .hero {
-            text-align: center;
-            padding: 80px 20px;
-            max-width: 800px;
+            padding: 160px 5% 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            min-height: 90vh;
+        }
+
+        .hero-text {
+            flex: 1;
+            text-align: left;
         }
 
         .hero h1 {
-            font-size: clamp(40px, 8vw, 72px);
+            font-size: clamp(40px, 6vw, 64px);
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 24px;
@@ -80,139 +158,299 @@
         }
 
         .hero h1 span {
+            display: block;
             color: var(--primary);
+            text-shadow: 0 0 30px var(--primary-glow);
         }
 
         .hero p {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-muted);
-            line-height: 1.6;
             margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-mockup {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-mockup img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            filter: drop-shadow(0 0 50px rgba(0, 0, 0, 0.5));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* --- Buttons --- */
+        .btn-group {
+            display: flex;
+            gap: 16px;
         }
 
         .btn-primary {
-            background-color: white;
+            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
             color: var(--bg);
-            padding: 18px 36px;
-            border-radius: 100px;
+            padding: 18px 32px;
+            border-radius: 16px;
             text-decoration: none;
-            font-weight: 900;
+            font-weight: 700;
             font-size: 16px;
-            transition: transform 0.2s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .btn-primary:hover {
-            transform: scale(1.05);
+            transform: scale(1.02) translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            width: 100%;
+        /* --- Features --- */
+        .features-section {
+            padding: 100px 5%;
             max-width: 1200px;
-            padding: 40px 20px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features-section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 50px;
+            letter-spacing: -1px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
         }
 
         .feature-card {
             background: var(--card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 32px;
-            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 32px;
             text-align: left;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            margin-bottom: 24px;
         }
 
         .feature-card h3 {
-            color: var(--primary);
+            font-size: 20px;
             margin-bottom: 12px;
-            font-weight: 900;
+            font-weight: 700;
+            color: #fff;
         }
 
         .feature-card p {
             color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.6;
+            font-size: 15px;
+            line-height: 1.7;
         }
 
+        /* --- Footer --- */
         footer {
-            margin-top: auto;
-            padding: 60px 20px;
+            padding: 100px 5% 60px;
             text-align: center;
-            color: var(--text-muted);
-            font-size: 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            margin-bottom: 30px;
+            opacity: 0.8;
         }
 
         .legal-links {
-            margin-top: 20px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
         .legal-links a {
             color: var(--text-muted);
             text-decoration: none;
-            margin: 0 10px;
+            font-size: 14px;
+            transition: color 0.2s;
         }
 
-        .bg-glow {
-            position: fixed;
-            top: -10%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-            z-index: -1;
+        .legal-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 140px;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-text p {
+                margin: 0 auto 40px;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .feature-card {
+                padding: 30px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="bg-glow"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
     <header>
-        <div class="logo-container">
-            <div class="logo-box">
-                <img src="app_icon.png" alt="Giziku Logo">
+        <div class="nav-content">
+            <div class="logo-container">
+                <div class="logo-box">
+                    <img src="app_icon.png" alt="Giziku Logo">
+                </div>
+                <div class="brand-name">Giziku</div>
             </div>
-            <div class="brand-name">Giziku</div>
+            <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary"
+                style="padding: 10px 20px; font-size: 14px; border-radius: 12px;">
+                Download
+            </a>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Bugar & Ideal Bersama <span>Giziku AI</span></h1>
-        <p>Aplikasi pelacak nutrisi cerdas yang membantu kamu mencapai target kalori harian dengan teknologi AI.
-            Analisis makananmu hanya dalam hitungan detik.</p>
-        <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary">
-            Dapatkan di Google Play
-        </a>
-    </section>
+    <main>
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Bugar & Ideal Bersama <span>Giziku AI</span></h1>
+                <p>Ubah kamera hp-mu menjadi asisten nutrisi pribadi. Hitung kalori dan nutrisi hanya dengan sekali foto
+                    atau ketik menunya.</p>
+                <div class="btn-group">
+                    <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary">
+                        <i data-lucide="play" fill="currentColor"></i>
+                        Dapatkan di Google Play
+                    </a>
+                </div>
+            </div>
+            <div class="hero-mockup">
+                <img src="giziku_mockup.png" alt="Giziku App Mockup">
+            </div>
+        </section>
 
-    <section class="features">
-        <div class="feature-card">
-            <h3>Analisis AI Instan</h3>
-            <p>Ketik menu makananmu dan biarkan AI Giziku menghitung kalori, protein, lemak, dan karbohidrat secara
-                instan.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Target Personalisasi</h3>
-            <p>Hitung kebutuhan energi harian (TDEE) berdasarkan data tubuhmu dan dapatkan target nutrisi yang presisi.
-            </p>
-        </div>
-        <div class="feature-card">
-            <h3>Mode Puasa & Ramadan</h3>
-            <p>Fitur otomatis yang menyesuaikan target nutrisi selama bulan Ramadan maupun Intermittent Fasting.</p>
-        </div>
-    </section>
+        <section class="features-section">
+            <h2>Fitur Unggulan</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="scan"></i></div>
+                    <h3>Analisis AI Instan</h3>
+                    <p>Sebutkan atau foto makananmu, AI kami akan menghitung kalori, protein, lemak, dan karbohidrat
+                        secara presisi dalam hitungan detik.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="target"></i></div>
+                    <h3>Target Personalisasi</h3>
+                    <p>Rekomendasi kebutuhan energi harian (TDEE) yang disesuaikan dengan profil tubuh, tingkat
+                        aktivitas, dan target berat badanmu.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i data-lucide="moon"></i></div>
+                    <h3>Mode Puasa & Ramadan</h3>
+                    <p>Satu-satunya pelacak nutrisi yang mengerti pola makan saat Ramadan atau Intermittent Fasting
+                        dengan penyesuaian target otomatis.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer>
-        <p>© 2026 Giziku: AI Calorie Tracker. All rights reserved.</p>
-        <div class="legal-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="/app-ads.txt">app-ads.txt</a>
+        <div class="footer-content">
+            <div class="logo-container footer-logo" style="justify-content: center;">
+                <div class="logo-box">
+                    <img src="app_icon.png" alt="Giziku Logo">
+                </div>
+                <div class="brand-name">Giziku</div>
+            </div>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="/app-ads.txt">app-ads.txt</a>
+            </div>
+            <p class="copyright">© 2026 Giziku: AI Calorie Tracker. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
