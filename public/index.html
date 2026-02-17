@@ -122,6 +122,20 @@
             pointer-events: none;
         }
 
+        .bg-shimmer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1.4;
+            background: radial-gradient(circle at var(--shimmer-x, 50%) var(--shimmer-y, 50%),
+                    rgba(16, 185, 129, 0.15) 0%,
+                    transparent 50%);
+            pointer-events: none;
+            transition: background 0.5s ease;
+        }
+
         .bg-glow {
             position: fixed;
             width: 80vw;
@@ -575,12 +589,49 @@
                 display: none;
             }
         }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-right: 12px;
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        @media (max-width: 640px) {
+            .lang-switcher {
+                display: none;
+                /* Hidden on mobile to save space */
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="bg-gradient"></div>
     <div class="bg-grid"></div>
+    <div class="bg-shimmer" id="gridShimmer"></div>
     <div class="bg-glow glow-1"></div>
     <div class="bg-glow glow-2"></div>
 
@@ -592,23 +643,30 @@
                 </div>
                 <div class="brand-name">Giziku</div>
             </div>
-            <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary"
-                style="padding: 10px 20px; font-size: 14px; border-radius: 12px;">
-                Download
-            </a>
+            <div style="display: flex; align-items: center;">
+                <div class="lang-switcher">
+                    <button class="lang-btn" onclick="setLanguage('id')" id="lang-id">ID</button>
+                    <button class="lang-btn" onclick="setLanguage('en')" id="lang-en">EN</button>
+                </div>
+                <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary"
+                    style="padding: 10px 20px; font-size: 14px; border-radius: 12px;" data-i18n="nav_download">
+                    Download
+                </a>
+            </div>
         </div>
     </header>
 
     <main>
         <section class="hero">
             <div class="hero-text">
-                <h1>Bugar & Ideal Bersama <span>Giziku AI</span></h1>
-                <p>Ubah kamera hp-mu menjadi asisten nutrisi pribadi. Hitung kalori dan nutrisi hanya dengan sekali foto
+                <h1 data-i18n="hero_title">Bugar & Ideal Bersama <span>Giziku AI</span></h1>
+                <p data-i18n="hero_subtitle">Ubah kamera hp-mu menjadi asisten nutrisi pribadi. Hitung kalori dan
+                    nutrisi hanya dengan sekali foto
                     atau ketik menunya.</p>
                 <div class="btn-group">
                     <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary">
                         <i data-lucide="play" fill="currentColor"></i>
-                        Dapatkan di Google Play
+                        <span data-i18n="btn_playstore">Dapatkan di Google Play</span>
                     </a>
                 </div>
             </div>
@@ -635,24 +693,27 @@
         </section>
 
         <section class="features-section">
-            <h2>Fitur Unggulan</h2>
+            <h2 data-i18n="features_title">Fitur Unggulan</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="scan"></i></div>
-                    <h3>Analisis AI Instan</h3>
-                    <p>Sebutkan atau foto makananmu, AI kami akan menghitung kalori, protein, lemak, dan karbohidrat
+                    <h3 data-i18n="feature_1_title">Analisis AI Instan</h3>
+                    <p data-i18n="feature_1_desc">Sebutkan atau foto makananmu, AI kami akan menghitung kalori, protein,
+                        lemak, dan karbohidrat
                         secara presisi dalam hitungan detik.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="target"></i></div>
-                    <h3>Target Personalisasi</h3>
-                    <p>Rekomendasi kebutuhan energi harian (TDEE) yang disesuaikan dengan profil tubuh, tingkat
+                    <h3 data-i18n="feature_2_title">Target Personalisasi</h3>
+                    <p data-i18n="feature_2_desc">Rekomendasi kebutuhan energi harian (TDEE) yang disesuaikan dengan
+                        profil tubuh, tingkat
                         aktivitas, dan target berat badanmu.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon"><i data-lucide="moon"></i></div>
-                    <h3>Mode Puasa & Ramadan</h3>
-                    <p>Satu-satunya pelacak nutrisi yang mengerti pola makan saat Ramadan atau Intermittent Fasting
+                    <h3 data-i18n="feature_3_title">Mode Puasa & Ramadan</h3>
+                    <p data-i18n="feature_3_desc">Satu-satunya pelacak nutrisi yang mengerti pola makan saat Ramadan
+                        atau Intermittent Fasting
                         dengan penyesuaian target otomatis.</p>
                 </div>
             </div>
@@ -668,11 +729,12 @@
                 <div class="brand-name">Giziku</div>
             </div>
             <div class="legal-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <a href="#" data-i18n="footer_privacy">Privacy Policy</a>
+                <a href="#" data-i18n="footer_tos">Terms of Service</a>
                 <a href="/app-ads.txt">app-ads.txt</a>
             </div>
-            <p class="copyright">© 2026 Giziku AI: Calorie Tracker. All rights reserved.</p>
+            <p class="copyright" data-i18n="footer_copyright">© 2026 Giziku AI: Calorie Tracker. All rights reserved.
+            </p>
         </div>
     </footer>
 
@@ -750,7 +812,7 @@
         floatingCta.className = 'floating-cta';
         floatingCta.innerHTML = `
             <a href="https://play.google.com/store/apps/details?id=com.apps2878.giziku" class="btn-primary" style="width: 100%; justify-content: center;">
-                <i data-lucide="download"></i> Download Giziku Sekarang
+                <i data-lucide="download"></i> <span data-i18n="floating_cta">Download Giziku Sekarang</span>
             </a>
         `;
         document.body.appendChild(floatingCta);
@@ -763,6 +825,101 @@
                 floatingCta.classList.remove('visible');
             }
         });
+
+        // Translation Logic
+        const translations = {
+            id: {
+                title: "Giziku AI: Nutrition Tracker & Daily Calorie Target",
+                desc: "Giziku AI: Aplikasi pelacak nutrisi AI tercanggih. Hitung kalori dan nutrisi makanan otomatis hanya dengan foto. Pantau TDEE dan target diet harianmu dengan mudah!",
+                nav_download: "Download",
+                hero_title: 'Bugar & Ideal Bersama <span>Giziku AI</span>',
+                hero_subtitle: "Ubah kamera hp-mu menjadi asisten nutrisi pribadi. Hitung kalori dan nutrisi hanya dengan sekali foto atau ketik menunya.",
+                btn_playstore: "Dapatkan di Google Play",
+                features_title: "Fitur Unggulan",
+                feature_1_title: "Analisis AI Instan",
+                feature_1_desc: "Sebutkan atau foto makananmu, AI kami akan menghitung kalori, protein, lemak, dan karbohidrat secara presisi dalam hitungan detik.",
+                feature_2_title: "Target Personalisasi",
+                feature_2_desc: "Rekomendasi kebutuhan energi harian (TDEE) yang disesuaikan dengan profil tubuh, tingkat aktivitas, dan target berat badanmu.",
+                feature_3_title: "Mode Puasa & Ramadan",
+                feature_3_desc: "Satu-satunya pelacak nutrisi yang mengerti pola makan saat Ramadan atau Intermittent Fasting dengan penyesuaian target otomatis.",
+                footer_privacy: "Kebijakan Privasi",
+                footer_tos: "Syarat & Ketentuan",
+                footer_copyright: "© 2026 Giziku AI: Calorie Tracker. Seluruh hak cipta dilindungi.",
+                floating_cta: "Download Giziku Sekarang"
+            },
+            en: {
+                title: "Giziku AI: AI Nutrition Tracker & Calorie Counter",
+                desc: "Giziku AI: The most advanced AI nutrition tracking app. Automatically count calories and nutrients just by taking a photo. Track TDEE and your daily diet goals with ease!",
+                nav_download: "Download",
+                hero_title: 'Stay Fit & Ideal with <span>Giziku AI</span>',
+                hero_subtitle: "Transform your phone camera into a personal nutrition assistant. Count calories and nutrients with just a photo or by typing the menu.",
+                btn_playstore: "Get it on Google Play",
+                features_title: "Premium Features",
+                feature_1_title: "Instant AI Analysis",
+                feature_1_desc: "Describe or photograph your food, our AI will calculate calories, protein, fat, and carbohydrates precisely within seconds.",
+                feature_2_title: "Personalized Targets",
+                feature_2_desc: "Daily energy requirement recommendations (TDEE) tailored to your body profile, activity level, and weight goals.",
+                feature_3_title: "Fasting & Ramadan Mode",
+                feature_3_desc: "The only nutrition tracker that understands eating patterns during Ramadan or Intermittent Fasting with automatic target adjustments.",
+                footer_privacy: "Privacy Policy",
+                footer_tos: "Terms of Service",
+                footer_copyright: "© 2026 Giziku AI: Calorie Tracker. All rights reserved.",
+                floating_cta: "Download Giziku Now"
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('preferred_lang', lang);
+
+            // Update buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
+
+            // Update text
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update Meta & Title
+            document.title = translations[lang].title;
+            document.querySelector('meta[name="description"]').setAttribute('content', translations[lang].desc);
+
+            // Refresh icons if any were replaced
+            lucide.createIcons();
+        }
+
+        // Auto-detect or use saved preference
+        const savedLang = localStorage.getItem('preferred_lang') || (navigator.language.startsWith('id') ? 'id' : 'en');
+        setLanguage(savedLang);
+
+        // Grid Shimmer Effect (Mouse Tracking)
+        const gridShimmer = document.getElementById('gridShimmer');
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            gridShimmer.style.setProperty('--shimmer-x', `${x}%`);
+            gridShimmer.style.setProperty('--shimmer-y', `${y}%`);
+        });
+
+        // Auto-shimmer animation for touch/idle
+        let angle = 0;
+        function autoShimmer() {
+            if (Date.now() - lastMove > 2000) { // Only if no mouse move in 2s
+                angle += 0.02;
+                const x = 50 + Math.cos(angle) * 30;
+                const y = 30 + Math.sin(angle) * 20;
+                gridShimmer.style.setProperty('--shimmer-x', `${x}%`);
+                gridShimmer.style.setProperty('--shimmer-y', `${y}%`);
+            }
+            requestAnimationFrame(autoShimmer);
+        }
+
+        let lastMove = Date.now();
+        window.addEventListener('mousemove', () => lastMove = Date.now());
+        autoShimmer();
     </script>
 </body>
 
