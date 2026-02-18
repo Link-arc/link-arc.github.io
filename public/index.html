@@ -207,12 +207,15 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+            overflow: hidden;
+            /* Sembunyikan siku hitam di pinggir icon */
         }
 
         .logo-box img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
+            width: 110%;
+            /* Perbesar sedikit untuk cropping siku */
+            height: 110%;
+            object-fit: cover;
         }
 
         .brand-name {
